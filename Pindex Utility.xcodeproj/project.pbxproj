@@ -15,18 +15,20 @@
 		847D027818BEEC11005D0D34 /* Pindex Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 847D027118BEEC11005D0D34 /* Pindex Model.xcdatamodeld */; };
 		847D027918BEEC11005D0D34 /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 847D027418BEEC11005D0D34 /* Category.m */; };
 		847D027A18BEEC11005D0D34 /* Country.m in Sources */ = {isa = PBXBuildFile; fileRef = 847D027618BEEC11005D0D34 /* Country.m */; };
+		847D027E18BEF165005D0D34 /* cities.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = 847D027D18BEF137005D0D34 /* cities.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		847D01C718BEE318005D0D34 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
 			files = (
+				847D027E18BEF165005D0D34 /* cities.json in CopyFiles */,
 				847D01D918BEE318005D0D34 /* Pindex_Utility.1 in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -44,6 +46,7 @@
 		847D027418BEEC11005D0D34 /* Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Category.m; sourceTree = "<group>"; };
 		847D027518BEEC11005D0D34 /* Country.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Country.h; sourceTree = "<group>"; };
 		847D027618BEEC11005D0D34 /* Country.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Country.m; sourceTree = "<group>"; };
+		847D027D18BEF137005D0D34 /* cities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cities.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +110,7 @@
 		847D027B18BEEC18005D0D34 /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
+				847D027D18BEF137005D0D34 /* cities.json */,
 				847D026F18BEEC11005D0D34 /* City.h */,
 				847D027018BEEC11005D0D34 /* City.m */,
 				847D027118BEEC11005D0D34 /* Pindex Model.xcdatamodeld */,

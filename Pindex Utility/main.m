@@ -64,6 +64,13 @@ int main(int argc, const char * argv[])
             NSLog(@"Error while saving %@", ([error localizedDescription] != nil) ? [error localizedDescription] : @"Unknown Error");
             exit(1);
         }
+        
+        NSError *err = nil;
+        NSString* dataPath = [[NSBundle mainBundle] pathForResource:@"cities" ofType:@"json"];
+        NSArray* cities = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:dataPath]
+                                                         options:kNilOptions
+                                                           error:&err];
+        NSLog(@"Imported Cities: %@", cities);
     }
     return 0;
 }
