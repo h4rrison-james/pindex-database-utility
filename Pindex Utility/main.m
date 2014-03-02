@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Harrison Sweeney. All rights reserved.
 //
 
+#include "CHCSVParser.h"
+
 static NSManagedObjectModel *managedObjectModel()
 {
     static NSManagedObjectModel *model = nil;
@@ -65,11 +67,9 @@ int main(int argc, const char * argv[])
             exit(1);
         }
         
-        NSError *err = nil;
-        NSString* dataPath = [[NSBundle mainBundle] pathForResource:@"cities" ofType:@"json"];
-        NSArray* cities = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:dataPath]
-                                                         options:kNilOptions
-                                                           error:&err];
+        NSString* dataPath = [[NSBundle mainBundle] pathForResource:@"cities" ofType:@"csv"];
+        NSArray *cities = [NSArray arrayWithContentsOfCSVFile:dataPath options:CHCSVParserOptionsSanitizesFields];
+        
         NSLog(@"Imported Cities: %@", cities);
     }
     return 0;
