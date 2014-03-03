@@ -6,7 +6,9 @@
 //  Copyright (c) 2014 Harrison Sweeney. All rights reserved.
 //
 
-#include "CHCSVParser.h"
+#import "City.h"
+#import "Category.h"
+#import "Country.h"
 
 static NSManagedObjectModel *managedObjectModel()
 {
@@ -67,10 +69,41 @@ int main(int argc, const char * argv[])
             exit(1);
         }
         
-        NSString* dataPath = [[NSBundle mainBundle] pathForResource:@"cities" ofType:@"csv"];
-        NSArray *cities = [NSArray arrayWithContentsOfCSVFile:dataPath options:CHCSVParserOptionsSanitizesFields];
-        
+        NSError* err = nil;
+        NSString* dataPath = [[NSBundle mainBundle] pathForResource:@"cities" ofType:@"json"];
+        NSArray* cities = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:dataPath]
+                                                         options:kNilOptions
+                                                           error:&err];
         NSLog(@"Imported Cities: %@", cities);
+        
+        // Loop through the array and add objects to core data
+        [cities enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            City *city = [NSEntityDescription insertNewObjectForEntityForName:@"Pin" inManagedObjectContext:context];
+            city.name = [obj objectForKey:@"name"];
+    
+            double lat = [[obj objectForKey:@"latitude"] doubleValue];
+            city.latitude = [NSNumber numberWithDouble:lat];
+            
+            double lon = [[obj objectForKey:@"longitude"] doubleValue];
+            city.longitude = [NSNumber numberWithDouble:lon];
+            
+            NSError *error;
+            if (![context save:&error]) {
+                NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+            }
+        }];
+        
+        // Test listing all the pins from core data
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Pin" inManagedObjectContext:context];
+        [fetchRequest setEntity:entity];
+        
+        NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
+        for (City *city in fetchedObjects) {
+            NSLog(@"Name: %@", city.name);
+            NSLog(@"Latitude: %@", city.latitude);
+            NSLog(@"Longitude: %@", city.longitude);
+        }
     }
     return 0;
 }
