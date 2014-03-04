@@ -1,8 +1,8 @@
 //
 //  Category.m
-//  Pindex
+//  Pindex Utility
 //
-//  Created by Harrison Sweeney on 27/02/2014.
+//  Created by Harrison Sweeney on 4/03/2014.
 //  Copyright (c) 2014 Harrison Sweeney. All rights reserved.
 //
 
@@ -12,9 +12,9 @@
 
 @implementation Category
 
-@dynamic name;
-@dynamic icon;
 @dynamic color;
+@dynamic icon;
+@dynamic name;
 @dynamic cities;
 
 @end

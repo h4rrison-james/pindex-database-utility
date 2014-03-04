@@ -1,17 +1,20 @@
 //
 //  Country.m
-//  Pindex
+//  Pindex Utility
 //
-//  Created by Harrison Sweeney on 27/02/2014.
+//  Created by Harrison Sweeney on 4/03/2014.
 //  Copyright (c) 2014 Harrison Sweeney. All rights reserved.
 //
 
 #import "Country.h"
+#import "City.h"
 
 
 @implementation Country
 
-@dynamic name;
 @dynamic flag;
+@dynamic name;
+@dynamic iso;
+@dynamic pins;
 
 @end

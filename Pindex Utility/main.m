@@ -9,6 +9,7 @@
 #import "City.h"
 #import "Category.h"
 #import "Country.h"
+#import <AppKit/AppKit.h>
 
 static NSManagedObjectModel *managedObjectModel()
 {
@@ -74,12 +75,17 @@ int main(int argc, const char * argv[])
         NSArray* cities = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:dataPath]
                                                          options:kNilOptions
                                                            error:&err];
-        NSLog(@"Imported Cities: %@", cities);
+        
+        // Add default category
+        Category *category = [NSEntityDescription insertNewObjectForEntityForName:@"Category" inManagedObjectContext:context];
+        category.name = @"Default";
+        category.icon = @"circle";
         
         // Loop through the array and add objects to core data
         [cities enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             City *city = [NSEntityDescription insertNewObjectForEntityForName:@"Pin" inManagedObjectContext:context];
             city.name = [obj objectForKey:@"name"];
+            city.state = [obj objectForKey:@"adm1name"];
     
             double lat = [[obj objectForKey:@"latitude"] doubleValue];
             city.latitude = [NSNumber numberWithDouble:lat];
@@ -87,7 +93,37 @@ int main(int argc, const char * argv[])
             double lon = [[obj objectForKey:@"longitude"] doubleValue];
             city.longitude = [NSNumber numberWithDouble:lon];
             
+            double pop = [[obj objectForKey:@"pop"] doubleValue];
+            city.population = [NSNumber numberWithDouble:pop];
+            
+            NSInteger rank = [[obj objectForKey:@"scalerank"] integerValue];
+            city.scalerank = [NSNumber numberWithInteger:rank];
+            
+            // Set up the fetch request to check if country exists
+            NSString *countryName = [obj objectForKey:@"adm0name"];
+            NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Country"];
+            [request setReturnsObjectsAsFaults:NO];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", countryName];
+            request.predicate = predicate;
             NSError *error;
+            
+            // Create new country if it hasn't been already
+            NSArray *result = [context executeFetchRequest:request error:&error];
+            if ([result count] == 0) {
+                Country *country = [NSEntityDescription insertNewObjectForEntityForName:@"Country" inManagedObjectContext:context];
+                country.name = [obj objectForKey:@"adm0name"];
+                country.iso = [obj objectForKey:@"iso"];
+                
+                NSString *path = [[NSBundle mainBundle] pathForResource:country.iso ofType:@"png"];
+                NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
+                country.flag = image;
+                
+                city.country = country;
+            }
+            else {
+                city.country = (Country *)[result firstObject];
+            }
+            
             if (![context save:&error]) {
                 NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
             }
@@ -100,9 +136,20 @@ int main(int argc, const char * argv[])
         
         NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
         for (City *city in fetchedObjects) {
-            NSLog(@"Name: %@", city.name);
-            NSLog(@"Latitude: %@", city.latitude);
-            NSLog(@"Longitude: %@", city.longitude);
+            Country *country = city.country;
+            NSLog(@"Name: %@, %@", city.name, country.name);
+            //NSLog(@"Latitude: %@", city.latitude);
+            //NSLog(@"Longitude: %@", city.longitude);
+        }
+        
+        // Test listing all countries from core data
+        fetchRequest = [[NSFetchRequest alloc] init];
+        entity = [NSEntityDescription entityForName:@"Country" inManagedObjectContext:context];
+        [fetchRequest setEntity:entity];
+        
+        fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
+        for (Country *country in fetchedObjects) {
+            //NSLog(@"Name: %@", country.name);
         }
     }
     return 0;

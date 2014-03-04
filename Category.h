@@ -1,8 +1,8 @@
 //
 //  Category.h
-//  Pindex
+//  Pindex Utility
 //
-//  Created by Harrison Sweeney on 27/02/2014.
+//  Created by Harrison Sweeney on 4/03/2014.
 //  Copyright (c) 2014 Harrison Sweeney. All rights reserved.
 //
 
@@ -13,9 +13,9 @@
 
 @interface Category : NSManagedObject
 
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * icon;
 @property (nonatomic, retain) id color;
+@property (nonatomic, retain) NSString * icon;
+@property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSSet *cities;
 @end
 
