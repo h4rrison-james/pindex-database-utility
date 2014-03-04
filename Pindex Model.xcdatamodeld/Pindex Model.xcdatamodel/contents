@@ -7,7 +7,7 @@
         <relationship name="cities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Pin" inverseName="category" inverseEntity="Pin" syncable="YES"/>
     </entity>
     <entity name="Country" representedClassName="Country" syncable="YES">
-        <attribute name="flag" optional="YES" attributeType="Transformable" valueTransformerName="" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="flag" optional="YES" attributeType="Binary" valueTransformerName="" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="iso" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="pins" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Pin" inverseName="country" inverseEntity="Pin" syncable="YES"/>

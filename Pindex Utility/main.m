@@ -115,8 +115,8 @@ int main(int argc, const char * argv[])
                 country.iso = [obj objectForKey:@"iso"];
                 
                 NSString *path = [[NSBundle mainBundle] pathForResource:country.iso ofType:@"png"];
-                NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
-                country.flag = image;
+                NSData *data = [NSData dataWithContentsOfFile:path];
+                country.flag = data;
                 
                 city.country = country;
             }

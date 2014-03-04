@@ -13,7 +13,7 @@
 
 @interface Country : NSManagedObject
 
-@property (nonatomic, retain) id flag;
+@property (nonatomic, retain) NSData * flag;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * iso;
 @property (nonatomic, retain) NSSet *pins;
